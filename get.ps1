@@ -42,16 +42,17 @@ try {
     # Check if Rust is installed
     if (Get-Command "rustc" -ErrorAction SilentlyContinue) {
         Write-Host "Updating Frontier..." -ForegroundColor Gray
-
-        cd $dest;
+        cd "$dest"
         .\frontier update
+        cd ..
 
         Write-Host "`nSuccess! Frontier installed." -ForegroundColor Green
         Write-Host "To start Frontier run:" -ForegroundColor Gray
-        Write-Host ".\frontier dev`n" -ForegroundColor DarkCyan
+        Write-Host "cd '$dest'; .\frontier dev`n" -ForegroundColor DarkCyan
     } else {
         Write-Host "`nSuccess! Frontier installed." -ForegroundColor Green
         Write-Host "Please, to start Frontier install Rust from 'https://rust-lang.org/tools/install/', and run:" -ForegroundColor Yellow
+
         $fullPath = (Resolve-Path $dest).Path
         Write-Host "cd '$fullPath'; .\frontier dev`n" -ForegroundColor DarkCyan
     }
