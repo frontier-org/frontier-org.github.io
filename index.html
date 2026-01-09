@@ -1,1 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontier | The Agnostic & Native GUI Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+        
+        :root {
+            --bg-color: #09090b;
+            --card-bg: #18181b;
+            --accent: #06b6d4;
+            --accent-glow: rgba(6, 182, 212, 0.2);
+        }
 
+        body {
+            background-color: var(--bg-color);
+            color: #fafafa;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .code-font { font-family: 'Fira Code', monospace; }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, #164e63 0%, #09090b 100%);
+        }
+
+        .glass-card {
+            background: rgba(24, 24, 27, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .accent-border { border-bottom: 2px solid var(--accent); }
+
+        .btn-primary {
+            background-color: var(--accent);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px var(--accent-glow);
+        }
+
+        pre {
+            background: #000 !important;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            overflow-x: auto;
+        }
+
+        .feature-icon {
+            background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-card border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-cyan-500 rounded flex items-center justify-center">
+                    <i class="fas fa-terminal text-black text-sm"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tighter">FRONTIER</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+                <a href="#features" class="hover:text-cyan-400 transition">Features</a>
+                <a href="#docs" class="hover:text-cyan-400 transition">Documentation</a>
+                <a href="https://github.com/frontier-org/modules" target="_blank" class="hover:text-cyan-400 transition">Modules</a>
+                <a href="#roadmap" class="hover:text-cyan-400 transition">Roadmap</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/frontier-org/frontier" target="_blank" class="text-2xl hover:text-cyan-400 transition">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#install" class="btn-primary text-black px-4 py-2 rounded-md font-bold text-sm">
+                    Build Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="install" class="relative pt-32 pb-20 hero-gradient overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+            <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter">
+                The <span class="text-cyan-500">Polyglot</span> <br>GUI Engine.
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                Build native Desktop apps using <span class="text-white">HTML/JS</span>. 
+                Control them with backends in <span class="text-white font-semibold">any language</span>. 
+                Ship a single static executable.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <div class="bg-black/50 border border-white/10 px-6 py-3 rounded-lg code-font text-cyan-400">
+                    git clone https://github.com/frontier-org/frontier.git
+                </div>
+                <a href="https://github.com/frontier-org/features-example" target="_blank" class="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg transition font-bold">
+                    View Examples
+                </a>
+            </div>
+        </div>
+        
+        <!-- Abstract UI preview -->
+        <div class="mt-20 max-w-5xl mx-auto glass-card rounded-t-2xl p-2 border-b-0 shadow-2xl">
+            <div class="flex gap-1.5 p-3 border-b border-white/5">
+                <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+            </div>
+            <div class="bg-[#0c0c0e] p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="text-xs text-gray-500 mb-2 code-font uppercase tracking-widest">frontend/index.html</div>
+                    <pre class="code-font text-cyan-300">
+&lt;meta name="frontier-title" content="My App"&gt;
+&lt;meta name="frontier-width" content="800"&gt;
+
+&lt;button onclick="runBackend()"&gt;
+   Execute
+&lt;/button&gt;
+
+&lt;script&gt;
+  function runBackend() {
+    window.ipc.postMessage('trigger|args');
+  }
+&lt;/script&gt;</pre>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-500 mb-2 code-font uppercase tracking-widest">backend/logic.py</div>
+                    <pre class="code-font text-emerald-400">
+import sys
+
+# Frontier passes arguments 
+# from the web UI to CLI args
+args = sys.argv[1:]
+
+print(f"Native result: {args}")
+# Result is routed back to 
+# window.Frontier.dispatch</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-24 max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="space-y-4">
+                <i class="fas fa-box-open text-4xl feature-icon"></i>
+                <h3 class="text-xl font-bold">Single Binary</h3>
+                <p class="text-gray-400 leading-relaxed">Manager orchestrates your frontend and backend into a single static Windows executable. No DLLs, no external dependencies.</p>
+            </div>
+            <div class="space-y-4">
+                <i class="fas fa-bolt text-4xl feature-icon"></i>
+                <h3 class="text-xl font-bold">Hot Reload</h3>
+                <p class="text-gray-400 leading-relaxed">Run <code class="bg-white/10 px-1 rounded">.\frontier dev</code> and see your changes instantly. Front-end reloads, back-end silently recompiles.</p>
+            </div>
+            <div class="space-y-4">
+                <i class="fas fa-shield-halved text-4xl feature-icon"></i>
+                <h3 class="text-xl font-bold">Native WebView</h3>
+                <p class="text-gray-400 leading-relaxed">Powered by Edge WebView2 on Windows. Lightweight and fast, consuming far less RAM than traditional Electron apps.</p>
+            </div>
+            <div class="space-y-4">
+                <i class="fas fa-microchip text-4xl feature-icon"></i>
+                <h3 class="text-xl font-bold">Polyglot Modules</h3>
+                <p class="text-gray-400 leading-relaxed">C, Python, Rust, Go, or Batch. If it runs on a computer, Frontier can bridge it to your interface.</p>
+            </div>
+            <div class="space-y-4">
+                <i class="fas fa-window-restore text-4xl feature-icon"></i>
+                <h3 class="text-xl font-bold">Meta-Tag Windowing</h3>
+                <p class="text-gray-400 leading-relaxed">Configure title, size, math-based positioning (centering), and constraints directly within your HTML &lt;head&gt;.</p>
+            </div>
+            <div class="space-y-4">
+                <i class="fas fa-key text-4xl feature-icon"></i>
+                <h3 class="text-xl font-bold">Security Whitelisting</h3>
+                <p class="text-gray-400 leading-relaxed">Strict URL routing ensures your app only opens what you allow. Multi-category handling for Internal vs Browser links.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Polyglot Showcase -->
+    <section class="py-20 bg-white/5 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2">
+                <h2 class="text-4xl font-black mb-6">Built for every language.</h2>
+                <p class="text-gray-400 mb-8">Frontier's Module Manifest system teaches the engine how to build or interpret your code. Switch from Python scripts to compiled C binaries by changing a single field.</p>
+                <div class="flex flex-wrap gap-4">
+                    <span class="px-4 py-2 glass-card rounded-full text-sm font-bold border border-white/10"><i class="fab fa-python text-yellow-400 mr-2"></i> Python</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm font-bold border border-white/10"><i class="fas fa-c text-blue-400 mr-2"></i> C / C++</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm font-bold border border-white/10"><i class="fab fa-rust text-orange-500 mr-2"></i> Rust</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm font-bold border border-white/10"><i class="fab fa-golang text-cyan-400 mr-2"></i> Go</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm font-bold border border-white/10"><i class="fab fa-node-js text-green-500 mr-2"></i> Node.js</span>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full">
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <div class="bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-widest opacity-50">modules/mod_gcc/manifest.toml</div>
+                    <pre class="code-font text-gray-300 rounded-none">
+name = "Mod GCC"
+extension = "c"
+suppress_window = true
+
+[dev]
+strategy = "build"
+
+[build]
+command = "gcc %IN% -o %OUT%"</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="docs" class="py-24 max-w-7xl mx-auto px-6">
+        <h2 class="text-center text-4xl font-black mb-16">System Architecture</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass-card p-8 rounded-2xl border-l-4 border-cyan-500">
+                <h3 class="text-2xl font-bold mb-4">The Manager (Build-time)</h3>
+                <ul class="space-y-3 text-gray-400">
+                    <li class="flex items-start gap-3"><i class="fas fa-check text-cyan-500 mt-1"></i> Validates <code>frontier.toml</code> project settings.</li>
+                    <li class="flex items-start gap-3"><i class="fas fa-check text-cyan-500 mt-1"></i> Compiles backend source files into assets.</li>
+                    <li class="flex items-start gap-3"><i class="fas fa-check text-cyan-500 mt-1"></i> Bundles HTML/JS using <code>rust-embed</code>.</li>
+                    <li class="flex items-start gap-3"><i class="fas fa-check text-cyan-500 mt-1"></i> Injects Windows resources (Icons, Metadata).</li>
+                </ul>
+            </div>
+            <div class="glass-card p-8 rounded-2xl border-l-4 border-emerald-500">
+                <h3 class="text-2xl font-bold mb-4">The Core (Runtime)</h3>
+                <ul class="space-y-3 text-gray-400">
+                    <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-1"></i> Serves files via the virtual <code>frontier://</code> protocol.</li>
+                    <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-1"></i> Orchestrates the IPC bridge between UI and OS.</li>
+                    <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-1"></i> Manages state persistence in <code>%LOCALAPPDATA%</code>.</li>
+                    <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-1"></i> Handles security URL category deduplication.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section id="roadmap" class="py-24 max-w-3xl mx-auto px-6">
+        <h2 class="text-center text-4xl font-black mb-12">Roadmap</h2>
+        <div class="space-y-8">
+            <div class="flex gap-6">
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full bg-cyan-500 flex items-center justify-center text-black font-bold">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="w-0.5 h-full bg-cyan-500/20"></div>
+                </div>
+                <div class="pb-8">
+                    <h4 class="text-lg font-bold">The Foundation</h4>
+                    <p class="text-gray-500">IPC Bridge, HTML meta-tag parsing, Persistence layer, and Windows Static build system.</p>
+                </div>
+            </div>
+            <div class="flex gap-6">
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="w-0.5 h-full bg-gray-700"></div>
+                </div>
+                <div class="pb-8">
+                    <h4 class="text-lg font-bold">Cross-Platform (Linux)</h4>
+                    <p class="text-gray-500">Implementing Linux-compatible build pipelines and Webview bindings for unified source execution.</p>
+                </div>
+            </div>
+            <div class="flex gap-6">
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold">Standalone Engine</h4>
+                    <p class="text-gray-500">Transitioning to a pre-compiled binary that allows users to build apps without local Rust/C compilers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-gray-500 text-sm">
+                2026 Frontier Engine.
+            </div>
+            <div class="flex gap-6">
+                <a href="https://github.com/frontier-org/frontier" target="_blank" class="text-gray-400 hover:text-white transition">Engine</a>
+                <a href="https://github.com/frontier-org/modules" target="_blank" class="text-gray-400 hover:text-white transition">Modules</a>
+                <a href="https://github.com/frontier-org/features-example" target="_blank" class="text-gray-400 hover:text-white transition">Examples</a>
+            </div>
+            <div class="text-cyan-500 font-bold tracking-tighter">
+                FRONTIER-FW.DEV
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
