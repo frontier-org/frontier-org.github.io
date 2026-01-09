@@ -8,14 +8,14 @@ $zip = "$env:TEMP\frontier.zip"
 $temp = "$env:TEMP\frontier_temp"
 
 # User Input
-Write-Host "* Get Frontier *" -ForegroundColor Cyan
+Write-Host "`n* Frontier Installer *`n" -ForegroundColor Cyan
 $input = Read-Host "Project folder name (Leave empty for current folder)"
 $dest = if($input){$input}else{(Get-Location).Path}
 if($input -and !(Test-Path $dest)){ New-Item -ItemType Directory -Path $dest | Out-Null }
 
 try {
     # Download
-    Write-Host "Downloading engine..." -ForegroundColor Gray
+    Write-Host "`nDownloading engine..." -ForegroundColor Gray
     Invoke-WebRequest -Uri $url -OutFile $zip
 
     # Extract
@@ -39,8 +39,22 @@ try {
     Remove-Item $zip -Force
     Remove-Item -Recurse -Force $temp
 
-    Write-Host "`nSuccess! Frontier installed in: $dest" -ForegroundColor Green
+    # Check if Rust is installed
+    if (Get-Command "rustc" -ErrorAction SilentlyContinue) {
+        Write-Host "Updating Frontier..." -ForegroundColor Gray
 
+        cd $dest;
+        .\frontier update
+
+        Write-Host "`nSuccess! Frontier installed." -ForegroundColor Green
+        Write-Host "To start Frontier run:" -ForegroundColor Gray
+        Write-Host ".\frontier dev`n" -ForegroundColor DarkCyan
+    } else {
+        Write-Host "`nSuccess! Frontier installed." -ForegroundColor Green
+        Write-Host "Please, to start Frontier install Rust from 'https://rustup.rs', and run:" -ForegroundColor Yellow
+        $fullPath = (Resolve-Path $dest).Path
+        Write-Host "cd '$fullPath'; .\frontier dev`n" -ForegroundColor DarkCyan
+    }
 } catch {
     Write-Host "`nError: $($_.Exception.Message)" -ForegroundColor Red
 }
