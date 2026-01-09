@@ -54,7 +54,7 @@ try {
         Write-Host "Please, to start Frontier, install Rust from 'https://rust-lang.org/tools/install/', and run:" -ForegroundColor Yellow
 
         $fullPath = (Resolve-Path $dest).Path
-        Write-Host "cd '$fullPath'; .\frontier dev`n" -ForegroundColor DarkCyan
+        Write-Host "cd '$fullPath'; .\frontier update; .\frontier dev`n" -ForegroundColor DarkCyan
     }
 } catch {
     Write-Host "`nError: $($_.Exception.Message)" -ForegroundColor Red
