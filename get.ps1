@@ -1,15 +1,12 @@
-# Error handling and Secure Protocol
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = 3072
 
-# Paths
 $url = "https://github.com/frontier-org/frontier/archive/refs/heads/main.zip"
 $tempDir = "C:\Temp"
 if (!(Test-Path $tempDir)) { New-Item -ItemType Directory -Path $tempDir -Force | Out-Null }
 $zip = Join-Path $tempDir "frontier.zip"
 $extractPath = Join-Path $tempDir "frontier_temp"
 
-# User Input
 Write-Host "`n* Frontier Installer *`n" -ForegroundColor Cyan
 $userInput = Read-Host "Project folder name (Leave empty for current folder)"
 $dest = if($userInput){$userInput}else{(Get-Location).Path}
@@ -18,17 +15,14 @@ if(!(Test-Path "$dest")){ New-Item -ItemType Directory -Path "$dest" -Force | Ou
 $destFull = (Resolve-Path "$dest").Path
 
 try {
-    # Download
     Write-Host "`nDownloading engine..." -ForegroundColor Gray
     Invoke-WebRequest -Uri $url -OutFile "$zip"
 
-    # Extract
     if (Test-Path "$extractPath") { Remove-Item -Recurse -Force "$extractPath" }
     Write-Host "Extracting files..." -ForegroundColor Gray
     Expand-Archive -Path "$zip" -DestinationPath "$extractPath" -Force
     $root = Get-ChildItem -Path "$extractPath" | Where-Object { $_.PSIsContainer } | Select-Object -First 1
 
-    # Installation
     $items = @(".frontier", "back.bat", "front.bat", "frontier.bat")
     foreach ($i in $items) {
         $source = Join-Path $root.FullName $i
@@ -37,15 +31,12 @@ try {
         }
     }
 
-    # Gitignore
     Write-Host "Creating .gitignore..." -ForegroundColor Gray
     ".frontier/`nback.bat`nfront.bat`nfrontier.bat" | Out-File -FilePath (Join-Path "$destFull" ".gitignore") -Encoding utf8 -Force
 
-    # Cleanup
     Remove-Item "$zip" -Force
     Remove-Item -Recurse -Force "$extractPath"
 
-    # Check if Rust is installed
     if (Get-Command "rustc" -ErrorAction SilentlyContinue) {
         Write-Host "Updating Frontier..." -ForegroundColor Gray
         Push-Location "$destFull"
