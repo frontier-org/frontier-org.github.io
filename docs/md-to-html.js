@@ -85,7 +85,7 @@ async function loadContent() {
         if (firstH1) {
             headerEl.innerHTML = `
                 <div class="text-cyan-500 font-bold text-sm tracking-widest uppercase mb-4 flex items-center gap-2">
-                    <i class="fas fa-file-alt"></i> docs/${targetFile}
+                    <i class="fas fa-file-alt"></i> docs / ${targetFile}
                 </div>
                 <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-white">
                     ${firstH1.innerText}
