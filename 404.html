@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Lost in the Frontier</title>
+    <title>Frontier | Lost Page</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -53,14 +53,13 @@
 
         .code-font { font-family: 'Fira Code', monospace; }
 
-        /* Animação de flutuação */
         .float {
             animation: floating 4s ease-in-out infinite;
         }
 
         @keyframes floating {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-40px); } /* Flutua um pouco mais */
+            50% { transform: translateY(-40px); }
             100% { transform: translateY(0px); }
         }
     </style>
@@ -70,14 +69,12 @@
     
     <div class="flex flex-col items-center w-full max-w-5xl relative">
         
-        <!-- Camada do 404 Animado -->
         <div class="float relative z-0 pointer-events-none select-none">
             <h1 class="text-[15rem] md:text-[24rem] font-black leading-none tracking-tighter text-white/[0.05] uppercase">
                 404
             </h1>
         </div>
 
-        <!-- Camada do Card (Empurrado para baixo com margem negativa ou normal) -->
         <div class="glass-card p-8 md:p-12 rounded-2xl max-w-lg w-full text-center border-white/10 shadow-2xl relative z-10 -mt-20 md:-mt-32">
             <h2 class="text-3xl font-extrabold mb-4 tracking-tight uppercase">Out of Bounds</h2>
             <p class="text-gray-400 mb-8 leading-relaxed">
@@ -89,18 +86,13 @@
                 <a href="/" class="btn-primary text-black px-8 py-3 rounded-md font-bold transition-all">
                     Return to Orbit
                 </a>
-                <a href="https://github.com/frontier-org/frontier" target="_blank" class="bg-white/5 hover:bg-white/10 border border-white/10 px-8 py-3 rounded-md font-bold transition-all text-sm md:text-base">
+                <a href="https://github.com/frontier-org/frontier-org.github.io" target="_blank" class="bg-white/5 hover:bg-white/10 border border-white/10 px-8 py-3 rounded-md font-bold transition-all text-sm md:text-base">
                     <i class="fab fa-github mr-2"></i> Report Issue
                 </a>
-            </div>
-            
-            <div class="mt-10 code-font text-[10px] text-gray-600 uppercase tracking-widest">
-                System Log: <span class="text-cyan-900">PATH_NOT_RESOLVED_404</span>
             </div>
         </div>
     </div>
 
-    <!-- Grid de fundo -->
     <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 60px 60px;"></div>
 </body>
 </html>
