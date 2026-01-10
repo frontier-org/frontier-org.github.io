@@ -142,7 +142,7 @@
             <div class="bg-[#0c0c0e] p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <div class="text-xs text-gray-500 mb-2 code-font uppercase tracking-widest">frontend/index.html</div>
-                    <pre class="code-font text-cyan-300">
+<pre class="code-font text-cyan-300">
 &lt;meta name="frontier-title" content="App"&gt;
 &lt;meta name="frontier-width" content="800"&gt;
 
@@ -154,11 +154,12 @@
   function runBackend() {
     window.ipc.postMessage('trigger|args');
   }
-&lt;/script&gt;</pre>
+&lt;/script&gt;
+</pre>
                 </div>
                 <div>
                     <div class="text-xs text-gray-500 mb-2 code-font uppercase tracking-widest">backend/logic.py</div>
-                    <pre class="code-font text-emerald-400">
+<pre class="code-font text-emerald-400">
 import sys
 
 # Frontier passes arguments 
@@ -167,7 +168,8 @@ args = sys.argv[1:]
 
 print(f"Native result: {args}")
 # Result is routed back to 
-# window.Frontier.dispatch</pre>
+# window.Frontier.dispatch
+</pre>
                 </div>
             </div>
         </div>
@@ -226,7 +228,7 @@ print(f"Native result: {args}")
             <div class="md:w-1/2 w-full">
                 <div class="glass-card rounded-xl overflow-hidden">
                     <div class="bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-widest opacity-50">modules/mod_gcc/manifest.toml</div>
-                    <pre class="code-font text-gray-300 rounded-none">
+<pre class="code-font text-gray-300 rounded-none">
 name = "Mod GCC"
 extension = "c"
 suppress_window = true
@@ -236,7 +238,7 @@ strategy = "build"
 
 [build]
 command = "gcc %IN% -o %OUT%"</pre>
-                </div>
+</div>
             </div>
         </div>
     </section>
