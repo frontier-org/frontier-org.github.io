@@ -67,21 +67,19 @@
 <body>
     <nav class="fixed w-full z-50 glass-card border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
+            <a href="/" class="flex items-center gap-3">
                 <img src="favicon.svg" class="w-8 h-8 drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]" alt="Frontier Logo">
-                <span class="text-xl font-extrabold tracking-tighter">FRONTIER</span>
-            </div>
+                <span class="text-xl font-extrabold tracking-tighter uppercase">Frontier</span>
+            </a>
             <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-                <a href="#features" class="hover:text-cyan-400 transition">Features</a>
-                <a href="#docs" class="hover:text-cyan-400 transition">Documentation</a>
+                <a href="/docs/#README.md" class="hover:text-cyan-400 transition">Documentation</a>
                 <a href="https://github.com/frontier-org/modules" target="_blank" class="hover:text-cyan-400 transition">Modules</a>
-                <a href="#roadmap" class="hover:text-cyan-400 transition">Roadmap</a>
             </div>
             <div class="flex items-center gap-4">
                 <a href="https://github.com/frontier-org/frontier" target="_blank" class="text-2xl hover:text-cyan-400 transition">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="#get" class="btn-primary text-black px-4 py-2 rounded-md font-bold text-sm">
+                <a href="/#get" class="btn-primary text-black px-4 py-2 rounded-md font-bold text-sm">
                     Get Now
                 </a>
             </div>
@@ -127,43 +125,49 @@
             </section>
         </div>
         
-        <div class="mt-16 max-w-5xl mx-auto glass-card rounded-t-2xl p-2 border-b-0 shadow-2xl">
+        <div class="mt-16 mx-auto w-fit max-w-full glass-card rounded-t-2xl p-2 border-b-0 shadow-2xl">
             <div class="flex gap-1.5 p-3 border-b border-white/5">
                 <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
                 <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
                 <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
             </div>
-            <div class="bg-[#0c0c0e] p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
+            
+            <div class="bg-[#0c0c0e] p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-full">
+                
+                <div class="min-w-0"> 
                     <div class="text-xs text-gray-500 mb-2 code-font uppercase tracking-widest">frontend/index.html</div>
-<pre class="code-font text-cyan-300">
-&lt;meta name="frontier-title" content="App"&gt;
-&lt;meta name="frontier-width" content="800"&gt;
+                    <pre class="code-font text-cyan-300 text-sm overflow-auto whitespace-pre pb-4">
+                        &lt;head&gt;
+                            &lt;meta name="frontier-title" content="My App"&gt;
+                            &lt;meta name="frontier-width" content="800"&gt;
+                        &lt;/head&gt;
+                        &lt;body&gt;
+                            &lt;button onclick="runBackend()"&gt;
+                                Execute
+                            &lt;/button&gt;
 
-&lt;button onclick="runBackend()"&gt;
-   Execute
-&lt;/button&gt;
-
-&lt;script&gt;
-  function runBackend() {
-    window.ipc.postMessage('trigger|args');
-  }
-&lt;/script&gt;
-</pre>
+                            &lt;script&gt;
+                                function runBackend() {
+                                    window.ipc.postMessage('trigger|args');
+                                }
+                            &lt;/script&gt;
+                        &lt;/body&gt;
+                    </pre>
                 </div>
-                <div>
+
+                <div class="min-w-0">
                     <div class="text-xs text-gray-500 mb-2 code-font uppercase tracking-widest">backend/logic.py</div>
-<pre class="code-font text-emerald-400">
-import sys
+                    <pre class="code-font text-emerald-400 text-sm overflow-auto whitespace-pre pb-4">
+                        import sys
 
-# Frontier passes arguments 
-# from the web UI to CLI args
-args = sys.argv[1:]
+                        # Frontier passes arguments 
+                        # from the web UI to CLI args
+                        args = sys.argv[1:]
 
-print(f"Native result: {args}")
-# Result is routed back to 
-# window.Frontier.dispatch
-</pre>
+                        print(f"Native result: {args}")
+                        # Result is routed back to 
+                        # window.Frontier.dispatch
+                    </pre>
                 </div>
             </div>
         </div>
@@ -220,22 +224,23 @@ print(f"Native result: {args}")
             <div class="md:w-1/2 w-full">
                 <div class="glass-card rounded-xl overflow-hidden">
                     <div class="bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-widest opacity-50">modules/mod_gcc/manifest.toml</div>
-<pre class="code-font text-gray-300 rounded-none">
-name = "Mod GCC"
-extension = "c"
-suppress_window = true
+                    <pre class="code-font text-gray-300 rounded-none">
+                        name = "Mod GCC"
+                        extension = "c"
+                        suppress_window = true
 
-[dev]
-strategy = "build"
+                        [dev]
+                        strategy = "build"
 
-[build]
-command = "gcc %IN% -o %OUT%"</pre>
-</div>
+                        [build]
+                        command = "gcc %IN% -o %OUT%"
+                    </pre>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="docs" class="py-24 max-w-7xl mx-auto px-6">
+    <section class="py-24 max-w-7xl mx-auto px-6">
         <h2 class="text-center text-4xl font-black mb-16">System Architecture</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="glass-card p-8 rounded-2xl border-l-4 border-cyan-500">
@@ -307,6 +312,7 @@ command = "gcc %IN% -o %OUT%"</pre>
             </div>
             <div class="flex gap-6">
                 <a href="https://github.com/frontier-org/frontier" target="_blank" class="text-gray-400 hover:text-white transition">Framework</a>
+                <a href="/docs/#README.md" class="text-gray-400 hover:text-white transition">Documentation</a>
                 <a href="https://github.com/frontier-org/modules" target="_blank" class="text-gray-400 hover:text-white transition">Modules</a>
                 <a href="https://github.com/frontier-org/features-example" target="_blank" class="text-gray-400 hover:text-white transition">Examples</a>
             </div>
@@ -317,22 +323,31 @@ command = "gcc %IN% -o %OUT%"</pre>
     </footer>
 
     <script>
-    function copyInstallCommand() {
-        const commandText = "powershell -nop \"iex(irm https://frontier-fw.dev/get.ps1)\"";
-        const icon = document.getElementById('copyIcon');
-        
-        navigator.clipboard.writeText(commandText).then(() => {
-            icon.classList.remove('fa-copy', 'far');
-            icon.classList.add('fa-check', 'fas', 'text-green-400');
+        function copyInstallCommand() {
+            const commandText = "powershell -nop \"iex(irm https://frontier-fw.dev/get.ps1)\"";
+            const icon = document.getElementById('copyIcon');
             
-            setTimeout(() => {
-                icon.classList.remove('fa-check', 'fas', 'text-green-400');
-                icon.classList.add('fa-copy', 'far');
-            }, 2000);
-        }).catch(err => {
-            console.error('Erro ao copiar: ', err);
+            navigator.clipboard.writeText(commandText).then(() => {
+                icon.classList.remove('fa-copy', 'far');
+                icon.classList.add('fa-check', 'fas', 'text-green-400');
+                
+                setTimeout(() => {
+                    icon.classList.remove('fa-check', 'fas', 'text-green-400');
+                    icon.classList.add('fa-copy', 'far');
+                }, 2000);
+            }).catch(err => {
+                console.error('Erro ao copiar: ', err);
+            });
+        }
+    </script>
+    <script>
+        document.querySelectorAll('pre').forEach(el => {
+            const lines = el.innerText.split('\n');
+            if (lines[0].trim() === '') lines.shift();
+            
+            const indent = lines[0].match(/^\s*/)[0].length;
+            el.innerText = lines.map(line => line.substring(indent)).join('\n');
         });
-    }
     </script>
 </body>
 </html>
