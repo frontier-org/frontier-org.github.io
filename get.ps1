@@ -32,7 +32,7 @@ try {
     }
 
     Write-Host "Creating .gitignore..." -ForegroundColor Gray
-    ".frontier/`nback.bat`nfront.bat`nfrontier.bat" | Out-File -FilePath (Join-Path "$destFull" ".gitignore") -Encoding utf8 -Force
+    Add-Content -Path (Join-Path "$destFull" ".gitignore") -Value "`n.frontier/`nback.bat`nfront.bat`nfrontier.bat" -Encoding utf8
 
     Remove-Item "$zip" -Force
     Remove-Item -Recurse -Force "$extractPath"
