@@ -31,14 +31,24 @@ try {
         }
     }
 
+    $legalFiles = @("LICENSE", "NOTICE")
+    foreach ($f in $legalFiles) {
+        $sourceLegal = Join-Path $root.FullName $f
+        if (Test-Path "$sourceLegal") {
+            $newName = $f + ".frontier"
+            Copy-Item -Path "$sourceLegal" -Destination (Join-Path "$destFull" $newName) -Force
+            Write-Host "Legal file added: $newName" -ForegroundColor DarkGray
+        }
+    }
+
     Write-Host "Creating .gitignore..." -ForegroundColor Gray
     $gitignorePath = Join-Path "$destFull" ".gitignore"
-    $frontierRules = ".frontier/`nback.bat`nfront.bat`nfrontier.bat"
+    $gitignoreRules = ".frontier/`nback.bat`nfront.bat`nfrontier.bat`nLICENSE.frontier`nNOTICE.frontier"
 
     if (Test-Path $gitignorePath) {
-        Add-Content -Path $gitignorePath -Value "`n$frontierRules" -Encoding utf8
+        Add-Content -Path $gitignorePath -Value "`n$gitignoreRules" -Encoding utf8
     } else {
-        Set-Content -Path $gitignorePath -Value $frontierRules -Encoding utf8
+        Set-Content -Path $gitignorePath -Value $gitignoreRules -Encoding utf8
     }
 
     Remove-Item "$zip" -Force
