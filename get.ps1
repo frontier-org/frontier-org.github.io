@@ -32,7 +32,14 @@ try {
     }
 
     Write-Host "Creating .gitignore..." -ForegroundColor Gray
-    Add-Content -Path (Join-Path "$destFull" ".gitignore") -Value "`n.frontier/`nback.bat`nfront.bat`nfrontier.bat" -Encoding utf8
+    $gitignorePath = Join-Path "$destFull" ".gitignore"
+    $frontierRules = ".frontier/`nback.bat`nfront.bat`nfrontier.bat"
+
+    if (Test-Path $gitignorePath) {
+        Add-Content -Path $gitignorePath -Value "`n$frontierRules" -Encoding utf8
+    } else {
+        Set-Content -Path $gitignorePath -Value $frontierRules -Encoding utf8
+    }
 
     Remove-Item "$zip" -Force
     Remove-Item -Recurse -Force "$extractPath"
