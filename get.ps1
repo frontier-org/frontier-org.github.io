@@ -30,20 +30,21 @@ try {
             Copy-Item -Path "$source" -Destination "$destFull" -Recurse -Force 
         }
     }
-
+    
+    $frontierFolder = Join-Path $destFull ".frontier"
     $legalFiles = @("LICENSE", "NOTICE")
+
     foreach ($f in $legalFiles) {
         $sourceLegal = Join-Path $root.FullName $f
         if (Test-Path "$sourceLegal") {
-            $newName = $f + ".frontier"
-            Copy-Item -Path "$sourceLegal" -Destination (Join-Path "$destFull" $newName) -Force
-            Write-Host "Legal file added: $newName" -ForegroundColor DarkGray
+            $destPath = Join-Path $frontierFolder $f
+            Copy-Item -Path "$sourceLegal" -Destination $destPath -Force
         }
     }
 
     Write-Host "Creating .gitignore..." -ForegroundColor Gray
     $gitignorePath = Join-Path "$destFull" ".gitignore"
-    $gitignoreRules = ".frontier/`nback.bat`nfront.bat`nfrontier.bat`nLICENSE.frontier`nNOTICE.frontier"
+    $gitignoreRules = ".frontier/`nback.bat`nfront.bat`nfrontier.bat"
 
     if (Test-Path $gitignorePath) {
         Add-Content -Path $gitignorePath -Value "`n$gitignoreRules" -Encoding utf8
