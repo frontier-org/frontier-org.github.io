@@ -15,7 +15,7 @@ if(!(Test-Path "$dest")){ New-Item -ItemType Directory -Path "$dest" -Force | Ou
 $destFull = (Resolve-Path "$dest").Path
 
 try {
-    Write-Host "`nDownloading engine..." -ForegroundColor Gray
+    Write-Host "`nDownloading framework..." -ForegroundColor Gray
     Invoke-WebRequest -Uri $url -OutFile "$zip"
 
     if (Test-Path "$extractPath") { Remove-Item -Recurse -Force "$extractPath" }
@@ -56,7 +56,7 @@ try {
     Remove-Item -Recurse -Force "$extractPath"
 
     if (Get-Command "rustc" -ErrorAction SilentlyContinue) {
-        Write-Host "Updating Frontier..." -ForegroundColor Gray
+        Write-Host "Updating dependencies..." -ForegroundColor Gray
         Push-Location "$destFull"
         & ".\frontier.bat" update
         Pop-Location
