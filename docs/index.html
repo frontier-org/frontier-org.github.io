@@ -18,61 +18,73 @@
             --accent-glow: rgba(6, 182, 212, 0.2);
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: #fafafa;
-            font-family: 'Inter', sans-serif;
-        }
+        body { background-color: var(--bg-color); color: #fafafa; font-family: 'Inter', sans-serif; }
+        .hero-gradient { background: radial-gradient(circle at 50% 50%, #164e63 0%, #09090b 100%); }
+        .glass-card { background: rgba(24, 24, 27, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
 
-        .code-font { font-family: 'Fira Code', monospace; }
-
-        .hero-gradient {
-            background: radial-gradient(circle at 50% 50%, #164e63 0%, #09090b 100%);
-        }
-
-        .glass-card {
-            background: rgba(24, 24, 27, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Estilização Customizada para o Markdown para bater com o Site */
         #content h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 2rem; color: white; }
-        #content h2 { font-size: 2rem; font-weight: 800; margin-top: 3rem; margin-bottom: 1.5rem; color: var(--accent); }
-        #content h3 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; color: #e4e4e7; }
+        #content h2 { font-size: 2rem; font-weight: 800; margin-top: 3.5rem; margin-bottom: 1.5rem; color: var(--accent); }
+        #content h3 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: #e4e4e7; }
         #content p { font-size: 1.125rem; color: #a1a1aa; line-height: 1.7; margin-bottom: 1.5rem; }
+        
         #content ul { margin-bottom: 1.5rem; }
         #content li { position: relative; padding-left: 1.75rem; margin-bottom: 0.75rem; color: #a1a1aa; }
-        #content li::before { content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem; top: 0.2rem; }
-        
-        #content pre { background: #000 !important; padding: 1.5rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.05); margin: 2rem 0; }
-        #content code { font-family: 'Fira Code', monospace; color: #22d3ee; background: rgba(34, 211, 238, 0.1); padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
-        #content pre code { background: transparent; padding: 0; color: inherit; }
-        
+        #content li::before { content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem; top: 0.25rem; }
+
+        #content code:not(pre code) { 
+            font-family: 'Fira Code', monospace; 
+            color: #22d3ee !important; 
+            background: rgba(34, 211, 238, 0.15) !important; 
+            padding: 0.2rem 0.45rem !important; 
+            border-radius: 0.4rem !important; 
+            font-size: 0.9em !important; 
+            border: 1px solid rgba(34, 211, 238, 0.2) !important;
+        }
+
+        #content h1 code, #content h2 code, #content h3 code {
+            color: #22d3ee !important;
+            background: rgba(34, 211, 238, 0.1) !important;
+        }
+
         #content a { color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
         #content a:hover { border-bottom-color: var(--accent); opacity: 0.8; }
 
-        .loading-pulse {
-            background: linear-gradient(90deg, #18181b 25%, #27272a 50%, #18181b 75%);
-            background-size: 200% 100%;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-        .btn-primary {
-            background-color: var(--accent);
+        .badge-cyber {
+            display: inline-block !important;
+            height: 20px;
+            margin: 0 4px 4px 0 !important;
+            vertical-align: middle;
+            filter: brightness(0.9);
             transition: all 0.3s ease;
-            box-shadow: 0 0 15px var(--accent-glow);
+            border-radius: 2px;
+        }
+        .badge-cyber:hover {
+            filter: brightness(1.2);
+            transform: translateY(-1px);
+            box-shadow: 0 0 12px var(--accent-glow);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px var(--accent-glow);
+        #content p:first-of-type:has(.badge-cyber) {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 2.5rem;
         }
 
-        #content h1, #content h2, #content h3, #content h4 {
-            scroll-margin-top: 100px;
-        }
+        #content img.block { border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); }
+
+        #content pre { background: #000 !important; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.05); margin: 2rem 0; }
+
+        .loading-pulse { background: linear-gradient(90deg, #18181b 25%, #27272a 50%, #18181b 75%); background-size: 200% 100%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .btn-primary { background-color: var(--accent); transition: all 0.3s ease; box-shadow: 0 0 15px var(--accent-glow); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px var(--accent-glow); }
+        #content h1, #content h2, #content h3 { scroll-margin-top: 100px; }
     </style>
 </head>
 <body>
@@ -99,7 +111,6 @@
         </div>
     </nav>
 
-    <!-- Seção Hero para o Título da Doc -->
     <section class="relative pt-32 pb-12 hero-gradient overflow-hidden">
         <div class="max-w-5xl mx-auto px-6 text-left relative z-10">
             <div id="doc-header">
@@ -109,13 +120,11 @@
         </div>
     </section>
 
-    <!-- Conteúdo Principal -->
     <main class="max-w-5xl mx-auto px-6 pb-24 mt-6">
         <article id="content" class="hidden glass-card p-8 md:p-12 rounded-2xl border-white/5 shadow-2xl">
-            <!-- Markdown injetado aqui -->
+            <!-- Markdown -->
         </article>
 
-        <!-- Skeleton Loading para o corpo -->
         <div id="loading-body" class="space-y-6">
             <div class="loading-pulse w-full h-4 rounded"></div>
             <div class="loading-pulse w-full h-4 rounded"></div>
@@ -124,7 +133,6 @@
         </div>
     </main>
 
-    <!-- Footer idêntico à Home -->
     <footer class="bg-black py-12 border-t border-white/5">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="text-gray-500 text-sm">
