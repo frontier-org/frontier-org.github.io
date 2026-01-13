@@ -26,10 +26,33 @@
         #content h2 { font-size: 2rem; font-weight: 800; margin-top: 3.5rem; margin-bottom: 1.5rem; color: var(--accent); }
         #content h3 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: #e4e4e7; }
         #content p { font-size: 1.125rem; color: #a1a1aa; line-height: 1.7; margin-bottom: 1.5rem; }
+
+        #content ul, #content ol { margin-bottom: 1.5rem; padding-left: 1rem; }
+        #content li { margin-bottom: 0.75rem; color: #a1a1aa; line-height: 1.6; }
+
+        #content ul { list-style: none; }
+        #content ul li { position: relative; padding-left: 1.5rem; }
+        #content ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.65rem;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+        }
+
+        #content ol { list-style-type: decimal; padding-left: 2rem; }
+        #content ol li { padding-left: 0.5rem; }
         
-        #content ul { margin-bottom: 1.5rem; }
-        #content li { position: relative; padding-left: 1.75rem; margin-bottom: 0.75rem; color: #a1a1aa; }
-        #content li::before { content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem; top: 0.25rem; }
+        #content ol ol { list-style-type: upper-roman; margin-top: 0.75rem; }
+        #content ol ol ol { list-style-type: lower-alpha; }
+
+        #content ol li::marker {
+            color: var(--accent);
+            font-weight: 700;
+        }
 
         #content code:not(pre code) { 
             font-family: 'Fira Code', monospace; 
@@ -41,50 +64,25 @@
             border: 1px solid rgba(34, 211, 238, 0.2) !important;
         }
 
-        #content h1 code, #content h2 code, #content h3 code {
-            color: #22d3ee !important;
-            background: rgba(34, 211, 238, 0.1) !important;
-        }
+        #content h1 code, #content h2 code, #content h3 code { color: #22d3ee !important; background: rgba(34, 211, 238, 0.1) !important; }
 
         #content a { color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
         #content a:hover { border-bottom-color: var(--accent); opacity: 0.8; }
 
-        .badge-cyber {
-            display: inline-block !important;
-            height: 20px;
-            margin: 0 4px 4px 0 !important;
-            vertical-align: middle;
-            filter: brightness(0.9);
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-        .badge-cyber:hover {
-            filter: brightness(1.2);
-            transform: translateY(-1px);
-            box-shadow: 0 0 12px var(--accent-glow);
-        }
+        .badge-cyber { display: inline-block !important; height: 20px; margin: 0 4px 4px 0 !important; vertical-align: middle; filter: brightness(0.9); transition: all 0.3s ease; border-radius: 2px; }
+        .badge-cyber:hover { filter: brightness(1.2); transform: translateY(-1px); box-shadow: 0 0 12px var(--accent-glow); }
 
-        #content p:first-of-type:has(.badge-cyber) {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 1rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 2.5rem;
-        }
+        #content p:first-of-type:has(.badge-cyber) { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 2.5rem; }
 
-        #content img.block { border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); }
-
-        #content pre { background: #000 !important; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.05); margin: 2rem 0; }
+        #content pre { background: #000 !important; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.05); margin: 2rem 0; overflow-x: auto; }
 
         .loading-pulse { background: linear-gradient(90deg, #18181b 25%, #27272a 50%, #18181b 75%); background-size: 200% 100%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         .btn-primary { background-color: var(--accent); transition: all 0.3s ease; box-shadow: 0 0 15px var(--accent-glow); }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px var(--accent-glow); }
-        #content h1, #content h2, #content h3 { scroll-margin-top: 100px; }
+
+        #content h1, #content h2, #content h3 { scroll-margin-top: 110px !important; }
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body>

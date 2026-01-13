@@ -31,21 +31,31 @@ const renderer = {
     image(token) {
         let href = token.href;
         const text = token.text;
-
         if (href.includes('shields.io')) {
             const separator = href.includes('?') ? '&' : '?';
-            
             href = `${href}${separator}style=flat-square&color=06b6d4`;
-            
             return `<img src="${href}" alt="${text}" class="badge-cyber">`;
         }
-
         const finalSrc = href.startsWith('http') ? href : `${CONFIG.repoBase}${href.replace('./', '')}`;
         return `<img src="${finalSrc}" alt="${text}" class="rounded-xl border border-white/10 my-10 shadow-2xl max-w-full mx-auto block">`;
     }
 };
 
 marked.use({ renderer });
+
+function scrollToAnchor() {
+    const hash = window.location.hash;
+    if (hash) {
+        const targetId = decodeURIComponent(hash.substring(1));
+        const element = document.getElementById(targetId);
+        if (element) {
+            element.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    }
+}
 
 async function loadContent() {
     const queryString = window.location.search.substring(1);
@@ -78,14 +88,20 @@ async function loadContent() {
         contentEl.classList.remove('hidden');
         document.title = `Frontier | ${targetFile}`;
         
-        if (window.location.hash) {
-            setTimeout(() => {
-                const el = document.getElementById(decodeURIComponent(window.location.hash.substring(1)));
-                if (el) window.scrollTo({ top: el.offsetTop - CONFIG.navbarHeight, behavior: 'smooth' });
-            }, 200);
-        }
-    } catch (err) { window.location.href = "/404.html"; }
+        setTimeout(scrollToAnchor, 300);
+    } catch (err) {
+        contentEl.innerHTML = `
+            <div class="text-center py-20">
+                <h1 class="text-6xl font-black text-white mb-4">404</h1>
+                <p class="text-gray-400 text-xl">Document not found or unauthorized.</p>
+                <a href="./?README.md" class="inline-block mt-8 text-cyan-500 hover:underline">Back to docs</a>
+            </div>
+        `;
+        loadingBody.classList.add('hidden');
+        contentEl.classList.remove('hidden');
+    }
 }
 
 loadContent();
 window.addEventListener('popstate', loadContent);
+window.addEventListener('hashchange', scrollToAnchor);
