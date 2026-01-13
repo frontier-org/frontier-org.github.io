@@ -1,11 +1,14 @@
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = 3072
 
-$url = "https://github.com/frontier-org/frontier/archive/refs/heads/main.zip"
+# Boolean to toggle between Pre-release and Stable
+$UsePrerelease = $true
+
+$repo = "frontier-org/frontier"
 $tempDir = "C:\Temp"
+$zip = Join-Path $tempDir "Frontier.zip"
+
 if (!(Test-Path $tempDir)) { New-Item -ItemType Directory -Path $tempDir -Force | Out-Null }
-$zip = Join-Path $tempDir "frontier.zip"
-$extractPath = Join-Path $tempDir "frontier_temp"
 
 Write-Host "`n* Frontier Installer *`n" -ForegroundColor Cyan
 $userInput = Read-Host "Project folder name (Leave empty for current folder)"
@@ -15,34 +18,30 @@ if(!(Test-Path "$dest")){ New-Item -ItemType Directory -Path "$dest" -Force | Ou
 $destFull = (Resolve-Path "$dest").Path
 
 try {
-    Write-Host "`nDownloading framework..." -ForegroundColor Gray
-    Invoke-WebRequest -Uri $url -OutFile "$zip"
-
-    if (Test-Path "$extractPath") { Remove-Item -Recurse -Force "$extractPath" }
-    Write-Host "Extracting files..." -ForegroundColor Gray
-    Expand-Archive -Path "$zip" -DestinationPath "$extractPath" -Force
-    $root = Get-ChildItem -Path "$extractPath" | Where-Object { $_.PSIsContainer } | Select-Object -First 1
-
-    $items = @(".frontier", "back.bat", "front.bat", "frontier.bat")
-    foreach ($i in $items) {
-        $source = Join-Path $root.FullName $i
-        if (Test-Path "$source") { 
-            Copy-Item -Path "$source" -Destination "$destFull" -Recurse -Force 
-        }
-    }
+    Write-Host "`nFetching release info..." -ForegroundColor Gray
     
-    $frontierFolder = Join-Path $destFull ".frontier"
-    $legalFiles = @("LICENSE", "NOTICE")
-
-    foreach ($f in $legalFiles) {
-        $sourceLegal = Join-Path $root.FullName $f
-        if (Test-Path "$sourceLegal") {
-            $destPath = Join-Path $frontierFolder $f
-            Copy-Item -Path "$sourceLegal" -Destination $destPath -Force
+    if ($UsePrerelease) {
+        $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases"
+        $targetRelease = $releases | Where-Object { $_.prerelease -eq $true } | Select-Object -First 1
+        
+        if ($null -eq $targetRelease) {
+            Write-Host "No pre-release found, falling back to latest stable." -ForegroundColor Yellow
+            $targetRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/latest"
         }
+    } else {
+        $targetRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/latest"
     }
 
-    Write-Host "Creating .gitignore..." -ForegroundColor Gray
+    $asset = $targetRelease.assets | Where-Object { $_.name -eq "Frontier.zip" } | Select-Object -First 1
+    if ($null -eq $asset) { throw "Frontier.zip not found in the selected release." }
+
+    Write-Host "Downloading Frontier ($($targetRelease.tag_name))..." -ForegroundColor Gray
+    Invoke-WebRequest -Uri $asset.browser_download_url -OutFile "$zip"
+
+    Write-Host "Extracting files..." -ForegroundColor Gray
+    Expand-Archive -Path "$zip" -DestinationPath "$destFull" -Force
+
+    Write-Host "Configuring .gitignore..." -ForegroundColor Gray
     $gitignorePath = Join-Path "$destFull" ".gitignore"
     $gitignoreRules = ".frontier/`nback.bat`nfront.bat`nfrontier.bat"
 
@@ -53,7 +52,6 @@ try {
     }
 
     Remove-Item "$zip" -Force
-    Remove-Item -Recurse -Force "$extractPath"
 
     if (Get-Command "rustc" -ErrorAction SilentlyContinue) {
         Write-Host "Updating dependencies..." -ForegroundColor Gray
@@ -66,7 +64,7 @@ try {
         Write-Host "cd '$dest'; .\frontier dev`n" -ForegroundColor DarkCyan
     } else {
         Write-Host "`nSuccess! Frontier installed." -ForegroundColor Green
-        Write-Host "Please, to start Frontier, install Rust from 'https://rust-lang.org/tools/install/', and run:" -ForegroundColor Yellow
+        Write-Host "Please install Rust from 'https://rust-lang.org/tools/install/' and run:" -ForegroundColor Yellow
         Write-Host "cd '$destFull'; .\frontier update; .\frontier dev`n" -ForegroundColor DarkCyan
     }
 } catch {
