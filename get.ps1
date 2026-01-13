@@ -64,8 +64,7 @@ try {
         Write-Host "cd '$dest'; .\frontier dev`n" -ForegroundColor DarkCyan
     } else {
         Write-Host "`nSuccess! Frontier installed." -ForegroundColor Green
-        Write-Host "Please install Rust from 'https://rust-lang.org/tools/install/' and run:" -ForegroundColor Yellow
-        Write-Host "cd '$destFull'; .\frontier update; .\frontier dev`n" -ForegroundColor DarkCyan
+        Write-Host "Missing requirements. See 'https://frontier-fw.dev/docs/?README.md#requirements' before proceeding." -ForegroundColor Yellow
     }
 } catch {
     Write-Host "`nError: $($_.Exception.Message)" -ForegroundColor Red
