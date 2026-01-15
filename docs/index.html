@@ -69,10 +69,10 @@
         #content a { color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
         #content a:hover { border-bottom-color: var(--accent); opacity: 0.8; }
 
-        .badge-cyber { display: inline-block !important; height: 20px; margin: 0 4px 4px 0 !important; vertical-align: middle; filter: brightness(0.9); transition: all 0.3s ease; border-radius: 2px; }
+        .badge-cyber { display: inline-block !important; height: 20px; vertical-align: middle; filter: brightness(0.9); transition: all 0.3s ease; border-radius: 2px; }
         .badge-cyber:hover { filter: brightness(1.2); transform: translateY(-1px); box-shadow: 0 0 12px var(--accent-glow); }
 
-        #content p:first-of-type:has(.badge-cyber) { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 2.5rem; }
+        #content p:has(.badge-cyber) { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: rgba(255, 255, 255, 0.02); padding: 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); }
 
         #content pre { background: #000 !important; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.05); margin: 2rem 0; overflow-x: auto; }
 

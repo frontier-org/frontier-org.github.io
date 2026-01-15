@@ -4,7 +4,9 @@ const CONFIG = {
     navbarHeight: 90 
 };
 
-const DOCS_WHITELIST = ["README.md", "LOGS.md", "MANUAL.md", "ROADMAP.md"];
+const DOCS_WHITELIST = [
+    "README.md", "LOGS.md", "MANUAL.md", "ROADMAP.md"
+];
 
 const renderer = {
     heading(token) {
