@@ -1,3 +1,6 @@
+// Copyright (c) 2026 The Frontier Framework Authors
+// SPDX-License-Identifier: Apache-2.0 OR MIT
+
 const CONFIG = {
     repoBase: "https://raw.githubusercontent.com/frontier-org/frontier/main/",
     defaultFile: "README.md",
