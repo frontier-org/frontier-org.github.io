@@ -10,6 +10,11 @@ $UsePrerelease = $true
 $repo = "frontier-org/frontier"
 $tempDir = "C:\Temp"
 $zip = Join-Path $tempDir "Frontier.zip"
+$gitignoreRules = ".frontier/
+dist/
+back.bat
+front.bat
+frontier.bat"
 
 if (!(Test-Path $tempDir)) { New-Item -ItemType Directory -Path $tempDir -Force | Out-Null }
 
@@ -46,7 +51,6 @@ try {
 
     Write-Host "Configuring .gitignore..." -ForegroundColor Gray
     $gitignorePath = Join-Path "$destFull" ".gitignore"
-    $gitignoreRules = ".frontier/`nback.bat`nfront.bat`nfrontier.bat"
 
     if (Test-Path $gitignorePath) {
         Add-Content -Path $gitignorePath -Value "`n$gitignoreRules" -Encoding utf8
