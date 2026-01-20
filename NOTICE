@@ -5,33 +5,4 @@ This product includes software developed by The Frontier Framework Authors
 (https://frontier-fw.dev).
 
 This software is dual-licensed under the Apache License, Version 2.0 and
-the MIT License.
-
-This product includes the following third-party software:
-
-Tailwind CSS
-Copyright © Tailwind Labs, Inc.
-https://tailwindcss.com/
-MIT
-
-Font Awesome Free
-Copyright © Fonticons, Inc.
-https://fontawesome.com/
-Creative Commons Attribution 4.0
-SIL Open Font License 1.1
-MIT
-
-Marked.js
-Copyright © Marked.js contributors
-https://github.com/markedjs/marked
-MIT
-
-Highlight.js
-Copyright © Highlight.js contributors
-https://highlightjs.org/
-BSD-3-Clause
-
-Google Fonts (Inter, Fira Code)
-Copyright © Google
-https://fonts.google.com/
-SIL Open Font License 1.1
+The MIT License.
