@@ -9,7 +9,7 @@ $UsePrerelease = $true
 
 $repo = "frontier-org/frontier"
 $tempDir = "C:\Temp"
-$zip = Join-Path $tempDir "Frontier.zip"
+$zip = Join-Path $tempDir "Frontier-Windows.zip"
 $gitignoreRules = ".frontier/
 dist/
 back.bat
@@ -40,8 +40,8 @@ try {
         $targetRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/latest"
     }
 
-    $asset = $targetRelease.assets | Where-Object { $_.name -eq "Frontier.zip" } | Select-Object -First 1
-    if ($null -eq $asset) { throw "Frontier.zip not found in the selected release." }
+    $asset = $targetRelease.assets | Where-Object { $_.name -eq "Frontier-Windows.zip" } | Select-Object -First 1
+    if ($null -eq $asset) { throw "Frontier-Windows.zip not found in the selected release." }
 
     Write-Host "Downloading Frontier ($($targetRelease.tag_name))..." -ForegroundColor Gray
     Invoke-WebRequest -Uri $asset.browser_download_url -OutFile "$zip"

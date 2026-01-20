@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
 const CONFIG = {
-    repoBase: "https://raw.githubusercontent.com/frontier-org/frontier/main/",
+    repoBase: "https://raw.githubusercontent.com/frontier-org/frontier/main/docs/",
     defaultFile: "README.md",
     navbarHeight: 90 
 };
