@@ -37,12 +37,12 @@ try {
         Write-Host "`nSyntax Example:" -ForegroundColor Gray
         Write-Host "  `$v='0.1.0'; `$p='.'; `$nu=`$true; iex(irm https://frontier-fw.dev/get.ps1)"
         Write-Host "`nAvailable Variables:" -ForegroundColor Gray
-        Write-Host "  `$v     Specific version tag (e.g., '0.1.0')"
-        Write-Host "  `$p     Target directory (e.g., 'MyProject' or '.')"
-        Write-Host "  `$pr    Boolean (`$true/`$false) to force pre-release"
-        Write-Host "  `$ni    Boolean (`$true) to skip .gitignore config"
-        Write-Host "  `$nu    Boolean (`$true) to skip 'frontier update'"
-        Write-Host "  `$h     Boolean (`$true) to show this screen`n"
+        Write-Host "  `$v     Specific version tag (e.g., '0.1.0')."
+        Write-Host "  `$p     Target directory (e.g., 'MyProject' or '.')."
+        Write-Host "  `$pr    Boolean (`$true/`$false) to force (or not) pre-release."
+        Write-Host "  `$ni    Boolean (`$true) to skip '.gitignore' config."
+        Write-Host "  `$nu    Boolean (`$true) to skip '.\frontier update'."
+        Write-Host "  `$h     Boolean (`$true) to show this screen.`n"
         return
     }
 
