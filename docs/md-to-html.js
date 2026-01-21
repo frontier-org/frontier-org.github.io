@@ -25,11 +25,22 @@ const renderer = {
     link(token) {
         const href = token.href;
         const text = this.parser.parseInline(token.tokens);
-        if (href.startsWith('http')) return `<a href="${href}" target="_blank" rel="noopener">${text}</a>`;
-        if (href.endsWith('.md') || href.includes('.md#')) {
-            const [file, anchor] = href.replace('./', '').split('#');
-            if (DOCS_WHITELIST.includes(file)) return `<a href="./?${file}${anchor ? '#' + anchor : ''}">${text}</a>`;
+
+        if (href.startsWith('http')) {
+            return `<a href="${href}" target="_blank" rel="noopener">${text}</a>`;
         }
+
+        if (href.endsWith('.md') || href.includes('.md#') || href.includes('.md/#')) {
+            const cleanHref = href.replace(/^\.\//, '').replace('.md/#', '.md#');
+            
+            const [file, anchor] = cleanHref.split('#');
+
+            if (DOCS_WHITELIST.includes(file)) {
+                const anchorPart = anchor ? `#${anchor}` : '';
+                return `<a href="./?${file}${anchorPart}">${text}</a>`;
+            }
+        }
+
         return `<a href="${href}">${text}</a>`;
     },
 
