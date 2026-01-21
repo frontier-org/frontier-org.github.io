@@ -10,8 +10,8 @@
     Shows this help message.
 .PARAMETER Path
     Target directory for installation (e.g., 'MyProject' or '.'). Skips prompt.
-.PARAMETER Tag
-    Specify a specific version tag to download (e.g., v0.1.0).
+.PARAMETER Version
+    Specify a specific version tag to download (e.g., 0.1.0).
 .PARAMETER PreRelease
     Forces the installer to look for the latest pre-release version.
 .PARAMETER NoGitignore
@@ -23,7 +23,7 @@
 param(
     [switch]$Help,
     [string]$Path,
-    [string]$Tag,
+    [string]$Version,
     [switch]$PreRelease,
     [switch]$NoGitignore,
     [switch]$NoUpdate
@@ -71,12 +71,11 @@ if ($Help -or $args) {
 try {
     $targetRelease = $null
 
-    if ($Tag) {
-        Write-Host "Verifying tag '$Tag'..." -ForegroundColor Gray
+    if ($Version) {
         try {
-            $targetRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/tags/$Tag"
+            $targetRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/tags/v$Version"
         } catch {
-            Write-Host "Error: The version tag '$Tag' does not exist in the repository." -ForegroundColor Red
+            Write-Host "Error: The version tag '$Version' does not exist in the repository." -ForegroundColor Red
             exit
         }
     }
