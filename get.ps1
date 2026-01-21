@@ -6,12 +6,13 @@
     Frontier Framework Installer.
 .DESCRIPTION
     Downloads, extracts, and configures the Frontier Framework environment.
+    Supports Global Variables for remote execution: $Tag, $Path, $PreRelease, $NoGitignore, $NoUpdate.
 .PARAMETER Help
     Shows this help message.
 .PARAMETER Path
     Target directory for installation (e.g., 'MyProject' or '.'). Skips prompt.
-.PARAMETER Version
-    Specify a specific version tag to download (e.g., 0.1.0).
+.PARAMETER Tag
+    Specify a specific version tag to download (e.g., v0.1.0).
 .PARAMETER PreRelease
     Forces the installer to look for the latest pre-release version.
 .PARAMETER NoGitignore
@@ -23,11 +24,18 @@
 param(
     [switch]$Help,
     [string]$Path,
-    [string]$Version,
+    [string]$Tag,
     [switch]$PreRelease,
     [switch]$NoGitignore,
     [switch]$NoUpdate
 )
+
+# --- Fallback for Remote Execution (Variables) ---
+if (-not $PSBoundParameters.ContainsKey('Tag') -and $Global:Tag) { $Tag = $Global:Tag }
+if (-not $PSBoundParameters.ContainsKey('Path') -and $Global:Path) { $Path = $Global:Path }
+if (-not $PSBoundParameters.ContainsKey('PreRelease') -and $Global:PreRelease) { $PreRelease = $Global:PreRelease }
+if (-not $PSBoundParameters.ContainsKey('NoGitignore') -and $Global:NoGitignore) { $NoGitignore = $Global:NoGitignore }
+if (-not $PSBoundParameters.ContainsKey('NoUpdate') -and $Global:NoUpdate) { $NoUpdate = $Global:NoUpdate }
 
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = 3072
@@ -49,17 +57,13 @@ front.bat
 frontier.bat"
 
 if ($Help -or $args) {
-    if ($args) {
-        Write-Host "`nError: Invalid argument(s) detected: $args" -ForegroundColor Red
-    }
-    
+    if ($args) { Write-Host "`nError: Invalid argument(s) detected: $args" -ForegroundColor Red }
     $helpData = Get-Help $PSCommandPath
     Write-Host "`nUsage for $($helpData.Name):" -ForegroundColor Cyan
     Write-Host $helpData.Synopsis
     Write-Host "`nSyntax:" -ForegroundColor Gray
     Write-Host ($helpData.syntax | Out-String).Trim()
     Write-Host "`nParameters:" -ForegroundColor Gray
-    
     $helpData.parameters.parameter | ForEach-Object {
         $desc = if ($_.description) { $_.description[0].Text } else { "No description available." }
         Write-Host "-$($_.name.PadRight(12)) $desc"
@@ -71,16 +75,17 @@ if ($Help -or $args) {
 try {
     $targetRelease = $null
 
-    if ($Version) {
+    if ($Tag) {
+        Write-Host "Verifying tag '$Tag'..." -ForegroundColor Gray
         try {
-            $targetRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/tags/v$Version"
+            $targetRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/tags/$Tag"
         } catch {
-            Write-Host "Error: The version tag '$Version' does not exist in the repository." -ForegroundColor Red
+            Write-Host "Error: The version tag '$Tag' does not exist in the repository." -ForegroundColor Red
             exit
         }
     }
 
-    if ($PSBoundParameters.ContainsKey('Path')) {
+    if ($Path) {
         $dest = $Path
     } else {
         Write-Host "`n* Frontier Installer *`n" -ForegroundColor Cyan
@@ -90,7 +95,6 @@ try {
 
     if(!(Test-Path "$dest")){ New-Item -ItemType Directory -Path "$dest" -Force | Out-Null }
     $destFull = (Resolve-Path "$dest").Path
-
     if (!(Test-Path $tempDir)) { New-Item -ItemType Directory -Path $tempDir -Force | Out-Null }
 
     if ($null -eq $targetRelease) {
@@ -98,7 +102,6 @@ try {
         if ($PreRelease -or $DefaultUsePrerelease) {
             $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases"
             $targetRelease = $releases | Where-Object { $_.prerelease -eq $true } | Select-Object -First 1
-            
             if ($null -eq $targetRelease) {
                 Write-Host "No pre-release found, falling back to latest stable." -ForegroundColor Yellow
                 $targetRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/latest"
@@ -116,10 +119,10 @@ try {
 
     Write-Host "Cleaning up existing files..." -ForegroundColor Gray
     $deletPaths -split "`n" | ForEach-Object {
-        $path = $_.Trim()
-        if ($path) {
-            $fullPath = Join-Path "$destFull" $path
-            if (Test-Path $fullPath) { Remove-Item -Path $fullPath -Recurse -Force }
+        $p = $_.Trim()
+        if ($p) {
+            $f = Join-Path "$destFull" $p
+            if (Test-Path $f) { Remove-Item -Path $f -Recurse -Force }
         }
     }
 
@@ -128,20 +131,14 @@ try {
 
     if (-not $NoGitignore) {
         Write-Host "Configuring .gitignore..." -ForegroundColor Gray
-        $gitignorePath = Join-Path "$destFull" ".gitignore"
-        $rulesArray = $gitignoreRules -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
-
-        if (Test-Path $gitignorePath) {
-            $currentContent = Get-Content $gitignorePath
-            $newRules = @()
-            foreach ($rule in $rulesArray) {
-                if ($currentContent -notcontains $rule) { $newRules += $rule }
-            }
-            if ($newRules.Count -gt 0) {
-                Add-Content -Path $gitignorePath -Value ("`n" + ($newRules -join "`n")) -Encoding utf8
-            }
+        $gi = Join-Path "$destFull" ".gitignore"
+        $rules = $gitignoreRules -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+        if (Test-Path $gi) {
+            $cur = Get-Content $gi
+            $new = @(); foreach ($r in $rules) { if ($cur -notcontains $r) { $new += $r } }
+            if ($new.Count -gt 0) { Add-Content -Path $gi -Value ("`n" + ($new -join "`n")) -Encoding utf8 }
         } else {
-            Set-Content -Path $gitignorePath -Value ($rulesArray -join "`n") -Encoding utf8
+            Set-Content -Path $gi -Value ($rules -join "`n") -Encoding utf8
         }
     }
 
@@ -157,14 +154,11 @@ try {
         } else {
             Write-Host "`nSuccess! Frontier installed (Update skipped)." -ForegroundColor Green
         }
-        
-        Write-Host "To start Frontier, run:" -ForegroundColor Gray
-        Write-Host "cd '$dest'; .\frontier dev`n" -ForegroundColor DarkCyan
+        Write-Host "To start Frontier, run: cd '$dest'; .\frontier dev`n" -ForegroundColor DarkCyan
     } else {
         Write-Host "`nSuccess! Frontier installed." -ForegroundColor Green
         Write-Host "Missing requirements (Rust). See 'https://frontier-fw.dev/docs/?README.md#requirements'." -ForegroundColor Yellow
     }
-
 } catch {
     Write-Host "`nError: $($_.Exception.Message)" -ForegroundColor Red
 }
