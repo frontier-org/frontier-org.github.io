@@ -13,16 +13,16 @@ $tempDir = "C:\Temp"
 $zip = Join-Path $tempDir "Frontier-Windows.zip"
 $defaultUsePrerelease = $true
 
-$deletPaths = ".frontier/
+$deletPaths = ".frontier\
 back.bat
 front.bat
 frontier.bat"
 
-$gitignoreRules = ".frontier/
-dist/
-back.bat
-front.bat
-frontier.bat"
+$gitignoreRules = "/.frontier/
+/dist/
+/back.bat
+/front.bat
+/frontier.bat"
 
 function Cleanup-FrontierSession {
     $Global:v  = $null
