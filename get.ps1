@@ -33,15 +33,9 @@ function Cleanup-FrontierSession {
     $Global:h  = $null
 }
 
-function New-Hyperlink {
-    param($url, $text)
-    return "$([char]27)]8;;$url$([char]27)\$text$([char]27)]8;;$([char]27)\"
-}
-
 try {
     if ($h) {
-        $link1 = New-Hyperlink -Url "https://frontier-fw.dev" -Text "Usage for Frontier Installer"
-        Write-Host "`n* $link1 *" -ForegroundColor Magenta
+        Write-Host "`n* Usage for Frontier Installer *" -ForegroundColor Magenta
 
         Write-Host "`nSyntax Example:"
         Write-Host "`$v='0.1.0'; `$p='.'; `$nu=`$true; iex(irm https://frontier-fw.dev/get.ps1)" -ForegroundColor Cyan
@@ -60,8 +54,7 @@ try {
         Write-Host "`$h     " -NoNewline -ForegroundColor Cyan
         Write-Host "Boolean (`$true) to show this screen.`n" -ForegroundColor DarkGray
 
-        $link1 = New-Hyperlink -Url "https://frontier-fw.dev/docs/?MANUAL.md#windows" -Text "here"
-        Write-Host "See more details $link1.`n" -ForegroundColor Yellow
+        Write-Host "See more details in 'https://frontier-fw.dev/docs/?MANUAL.md#windows'.`n" -ForegroundColor Yellow
         return
     }
 
@@ -76,8 +69,7 @@ try {
         }
     }
 
-    $link1 = New-Hyperlink -Url "https://frontier-fw.dev" -Text "Frontier Installer"
-    Write-Host "`n* $link1 *`n" -ForegroundColor Magenta
+    Write-Host "`n* Frontier Installer *`n" -ForegroundColor Magenta
     Write-Host "For Installer help, run in PowerShell:" -ForegroundColor DarkGray
     Write-Host "`$h=`$true; iex(irm https://frontier-fw.dev/get.ps1)`n" -ForegroundColor DarkCyan
 
@@ -155,8 +147,7 @@ try {
     } else {
         Write-Host "`nSuccess! Frontier installed (Update skipped)." -ForegroundColor Green
 
-        $link1 = New-Hyperlink -Url "https://frontier-fw.dev/docs/?MANUAL.md#windows" -Text "here"
-        Write-Host "Missing Rust. See more details $link1.`n" -ForegroundColor Yellow
+        Write-Host "Missing Rust. See more details in 'https://frontier-fw.dev/docs/?MANUAL.md#windows'.`n" -ForegroundColor Yellow
     }
 
 } catch {
