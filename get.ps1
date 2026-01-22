@@ -1,7 +1,7 @@
 # Copyright (c) 2026 The Frontier Framework Authors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
-# Local: iex(gc -Raw .\get.ps1)
+# Local: iex(gc -raw .\get.ps1)
 # Remote: iex(irm https://frontier-fw.dev/get.ps1)
 
 $ErrorActionPreference = "Stop"
@@ -117,7 +117,7 @@ try {
     Write-Host "Extracting files..."
     Expand-Archive -Path "$zip" -DestinationPath "$destFull" -Force
 
-    if ($ni -eq '1') {
+    if (!($ni -eq '1')) {
         Write-Host "Configuring .gitignore..."
         $gi = Join-Path "$destFull" ".gitignore"
         $rules = $gitignoreRules -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
@@ -133,7 +133,7 @@ try {
     Remove-Item "$zip" -Force
 
     if (Get-Command "rustc" -ErrorAction SilentlyContinue) {
-        if ($nu -eq '1') {
+        if (!($nu -eq '1')) {
             Write-Host "Updating dependencies..."
             Push-Location "$destFull"
             & ".\frontier.bat" update
