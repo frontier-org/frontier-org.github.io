@@ -34,11 +34,11 @@ function Cleanup-FrontierSession {
 }
 
 try {
-    if ($h) {
+    if ($h -eq '1') {
         Write-Host "`n* Usage for Frontier Installer *" -ForegroundColor Magenta
 
         Write-Host "`nSyntax Example:"
-        Write-Host "`$v='0.1.0'; `$p='.'; `$nu=`$true; iex(irm https://frontier-fw.dev/get.ps1)" -ForegroundColor Cyan
+        Write-Host "`$v='0.1.0'; `$p='.'; `$nu=1; iex(irm https://frontier-fw.dev/get.ps1)" -ForegroundColor Cyan
 
         Write-Host "`nAvailable Variables:"
         Write-Host "`$v     " -NoNewline -ForegroundColor Cyan
@@ -46,13 +46,13 @@ try {
         Write-Host "`$p     " -NoNewline -ForegroundColor Cyan
         Write-Host "Target directory (e.g., 'MyProject' or '.')." -ForegroundColor DarkGray
         Write-Host "`$pr    " -NoNewline -ForegroundColor Cyan
-        Write-Host "Boolean (`$true/`$false) to force (or not) pre-release." -ForegroundColor DarkGray
+        Write-Host "Boolean (1/0) to force/ignore pre-release." -ForegroundColor DarkGray
         Write-Host "`$ni    " -NoNewline -ForegroundColor Cyan
-        Write-Host "Boolean (`$true) to skip '.gitignore' config." -ForegroundColor DarkGray
+        Write-Host "Boolean (1) to skip '.gitignore' config." -ForegroundColor DarkGray
         Write-Host "`$nu    " -NoNewline -ForegroundColor Cyan
-        Write-Host "Boolean (`$true) to skip '.\frontier update'." -ForegroundColor DarkGray
+        Write-Host "Boolean (1) to skip '.\frontier update'." -ForegroundColor DarkGray
         Write-Host "`$h     " -NoNewline -ForegroundColor Cyan
-        Write-Host "Boolean (`$true) to show this screen.`n" -ForegroundColor DarkGray
+        Write-Host "Boolean (1) to show this screen.`n" -ForegroundColor DarkGray
 
         Write-Host "See more details in 'https://frontier-fw.dev/docs/?MANUAL.md#windows'.`n" -ForegroundColor Yellow
         return
@@ -71,7 +71,7 @@ try {
 
     Write-Host "`n* Frontier Installer *`n" -ForegroundColor Magenta
     Write-Host "For Installer help, run in PowerShell:" -ForegroundColor DarkGray
-    Write-Host "`$h=`$true; iex(irm https://frontier-fw.dev/get.ps1)`n" -ForegroundColor DarkCyan
+    Write-Host "`$h=1; iex(irm https://frontier-fw.dev/get.ps1)`n" -ForegroundColor DarkCyan
 
     if ($p) {
         $dest = $p
@@ -86,9 +86,8 @@ try {
 
     if ($null -eq $targetRelease) {
         Write-Host "Fetching release info..."
-        $usePR = if($pr -ne $null){ $pr } else { $defaultUsePrerelease }
         
-        if ($usePR) {
+        if ($pr -eq '1' -or ($defaultUsePrerelease -and $pr -ne '0')) {
             $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases"
             $targetRelease = $releases | Where-Object { $_.prerelease -eq $true } | Select-Object -First 1
             if ($null -eq $targetRelease) {
@@ -118,7 +117,7 @@ try {
     Write-Host "Extracting files..."
     Expand-Archive -Path "$zip" -DestinationPath "$destFull" -Force
 
-    if (-not $ni) {
+    if ($ni -eq '1') {
         Write-Host "Configuring .gitignore..."
         $gi = Join-Path "$destFull" ".gitignore"
         $rules = $gitignoreRules -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
@@ -134,7 +133,7 @@ try {
     Remove-Item "$zip" -Force
 
     if (Get-Command "rustc" -ErrorAction SilentlyContinue) {
-        if (-not $nu) {
+        if ($nu -eq '1') {
             Write-Host "Updating dependencies..."
             Push-Location "$destFull"
             & ".\frontier.bat" update
