@@ -37,9 +37,6 @@ try {
     if ($h -eq '1') {
         Write-Host "`n* Usage for Frontier Installer *" -ForegroundColor Magenta
 
-        Write-Host "`nSyntax Example:"
-        Write-Host "`$v='0.1.0'; `$p='.'; `$nu=1; iex(irm https://frontier-fw.dev/get.ps1)" -ForegroundColor Cyan
-
         Write-Host "`nAvailable Variables:"
         Write-Host "`$v     " -NoNewline -ForegroundColor Cyan
         Write-Host "Specific version tag (e.g., '0.1.0')." -ForegroundColor DarkGray
@@ -52,9 +49,12 @@ try {
         Write-Host "`$nu    " -NoNewline -ForegroundColor Cyan
         Write-Host "Boolean (1) to skip '.\frontier update'." -ForegroundColor DarkGray
         Write-Host "`$h     " -NoNewline -ForegroundColor Cyan
-        Write-Host "Boolean (1) to show this screen.`n" -ForegroundColor DarkGray
+        Write-Host "Boolean (1) to show this screen." -ForegroundColor DarkGray
 
-        Write-Host "See more details in 'https://frontier-fw.dev/docs/?MANUAL.md#windows'.`n" -ForegroundColor Yellow
+        Write-Host "`nExample:"
+        Write-Host "`$v='0.1.0'; `$p='Frontier'; `$pr=1; `$ni=1; `$nu=1; `$h=1; iex(irm https://frontier-fw.dev/get.ps1)" -ForegroundColor Cyan
+
+        Write-Host "`nSee more details in 'https://frontier-fw.dev/docs/?MANUAL.md#windows'.`n" -ForegroundColor Yellow
         return
     }
 
