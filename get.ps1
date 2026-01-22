@@ -1,6 +1,9 @@
 # Copyright (c) 2026 The Frontier Framework Authors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
+# Local: iex(gc -Raw .\get.ps1)
+# Remote: iex(irm https://frontier-fw.dev/get.ps1)
+
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = 3072
 
@@ -30,19 +33,35 @@ function Cleanup-FrontierSession {
     $Global:h  = $null
 }
 
+function New-Hyperlink {
+    param($url, $text)
+    return "$([char]27)]8;;$url$([char]27)\$text$([char]27)]8;;$([char]27)\"
+}
+
 try {
     if ($h) {
-        Write-Host "`n* Usage for Frontier Installer *`n" -ForegroundColor Cyan
-        Write-Host "Set the variables before running the install command."
-        Write-Host "`nSyntax Example:" -ForegroundColor Gray
-        Write-Host "  `$v='0.1.0'; `$p='.'; `$nu=`$true; iex(irm https://frontier-fw.dev/get.ps1)"
-        Write-Host "`nAvailable Variables:" -ForegroundColor Gray
-        Write-Host "  `$v     Specific version tag (e.g., '0.1.0')."
-        Write-Host "  `$p     Target directory (e.g., 'MyProject' or '.')."
-        Write-Host "  `$pr    Boolean (`$true/`$false) to force (or not) pre-release."
-        Write-Host "  `$ni    Boolean (`$true) to skip '.gitignore' config."
-        Write-Host "  `$nu    Boolean (`$true) to skip '.\frontier update'."
-        Write-Host "  `$h     Boolean (`$true) to show this screen.`n"
+        $link1 = New-Hyperlink -Url "https://frontier-fw.dev" -Text "Usage for Frontier Installer"
+        Write-Host "`n* $link1 *" -ForegroundColor Magenta
+
+        Write-Host "`nSyntax Example:"
+        Write-Host "`$v='0.1.0'; `$p='.'; `$nu=`$true; iex(irm https://frontier-fw.dev/get.ps1)" -ForegroundColor Cyan
+
+        Write-Host "`nAvailable Variables:"
+        Write-Host "`$v     " -NoNewline -ForegroundColor Cyan
+        Write-Host "Specific version tag (e.g., '0.1.0')." -ForegroundColor DarkGray
+        Write-Host "`$p     " -NoNewline -ForegroundColor Cyan
+        Write-Host "Target directory (e.g., 'MyProject' or '.')." -ForegroundColor DarkGray
+        Write-Host "`$pr    " -NoNewline -ForegroundColor Cyan
+        Write-Host "Boolean (`$true/`$false) to force (or not) pre-release." -ForegroundColor DarkGray
+        Write-Host "`$ni    " -NoNewline -ForegroundColor Cyan
+        Write-Host "Boolean (`$true) to skip '.gitignore' config." -ForegroundColor DarkGray
+        Write-Host "`$nu    " -NoNewline -ForegroundColor Cyan
+        Write-Host "Boolean (`$true) to skip '.\frontier update'." -ForegroundColor DarkGray
+        Write-Host "`$h     " -NoNewline -ForegroundColor Cyan
+        Write-Host "Boolean (`$true) to show this screen.`n" -ForegroundColor DarkGray
+
+        $link1 = New-Hyperlink -Url "https://frontier-fw.dev/docs/?MANUAL.md#windows" -Text "here"
+        Write-Host "See more details $link1.`n" -ForegroundColor Yellow
         return
     }
 
@@ -57,9 +76,10 @@ try {
         }
     }
 
-    Write-Host "`n* Frontier Installer *`n" -ForegroundColor Cyan
-    Write-Host "For Installer help, run in PowerShell:" -ForegroundColor Gray
-    Write-Host "`$h=`$true; iex(irm https://frontier-fw.dev/get.ps1)`n" -ForegroundColor Gray
+    $link1 = New-Hyperlink -Url "https://frontier-fw.dev" -Text "Frontier Installer"
+    Write-Host "`n* $link1 *`n" -ForegroundColor Magenta
+    Write-Host "For Installer help, run in PowerShell:" -ForegroundColor DarkGray
+    Write-Host "`$h=`$true; iex(irm https://frontier-fw.dev/get.ps1)`n" -ForegroundColor DarkCyan
 
     if ($p) {
         $dest = $p
@@ -73,7 +93,7 @@ try {
     if (!(Test-Path $tempDir)) { New-Item -ItemType Directory -Path $tempDir -Force | Out-Null }
 
     if ($null -eq $targetRelease) {
-        Write-Host "Fetching release info..." -ForegroundColor Gray
+        Write-Host "Fetching release info..."
         $usePR = if($pr -ne $null){ $pr } else { $defaultUsePrerelease }
         
         if ($usePR) {
@@ -91,10 +111,10 @@ try {
     $asset = $targetRelease.assets | Where-Object { $_.name -eq "Frontier-Windows.zip" } | Select-Object -First 1
     if ($null -eq $asset) { throw "Frontier-Windows.zip not found in release ($($targetRelease.tag_name))." }
 
-    Write-Host "Downloading Frontier ($($targetRelease.tag_name))..." -ForegroundColor Gray
+    Write-Host "Downloading Frontier ($($targetRelease.tag_name))..."
     Invoke-WebRequest -Uri $asset.browser_download_url -OutFile "$zip"
 
-    Write-Host "Cleaning up existing files..." -ForegroundColor Gray
+    Write-Host "Cleaning up existing files..."
     $deletPaths -split "`n" | ForEach-Object {
         $p = $_.Trim()
         if ($p) {
@@ -103,11 +123,11 @@ try {
         }
     }
 
-    Write-Host "Extracting files..." -ForegroundColor Gray
+    Write-Host "Extracting files..."
     Expand-Archive -Path "$zip" -DestinationPath "$destFull" -Force
 
     if (-not $ni) {
-        Write-Host "Configuring .gitignore..." -ForegroundColor Gray
+        Write-Host "Configuring .gitignore..."
         $gi = Join-Path "$destFull" ".gitignore"
         $rules = $gitignoreRules -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
         if (Test-Path $gi) {
@@ -123,7 +143,7 @@ try {
 
     if (Get-Command "rustc" -ErrorAction SilentlyContinue) {
         if (-not $nu) {
-            Write-Host "Updating dependencies..." -ForegroundColor Gray
+            Write-Host "Updating dependencies..."
             Push-Location "$destFull"
             & ".\frontier.bat" update
             Pop-Location
@@ -131,10 +151,12 @@ try {
         } else {
             Write-Host "`nSuccess! Frontier installed (Update skipped)." -ForegroundColor Green
         }
-        Write-Host "To start Frontier, run: cd '$dest'; .\frontier dev`n" -ForegroundColor DarkCyan
+        Write-Host "To start Frontier, run: cd '$dest'; .\frontier dev`n" -ForegroundColor Cyan
     } else {
-        Write-Host "`nSuccess! Frontier installed." -ForegroundColor Green
-        Write-Host "Missing requirements (Rust). See 'https://frontier-fw.dev/docs/?README.md#requirements'." -ForegroundColor Yellow
+        Write-Host "`nSuccess! Frontier installed (Update skipped)." -ForegroundColor Green
+
+        $link1 = New-Hyperlink -Url "https://frontier-fw.dev/docs/?MANUAL.md#windows" -Text "here"
+        Write-Host "Missing Rust. See more details $link1.`n" -ForegroundColor Yellow
     }
 
 } catch {
