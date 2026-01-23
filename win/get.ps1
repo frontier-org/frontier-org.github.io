@@ -55,7 +55,7 @@ try {
 
         Write-Host "`nExample:"
         Write-Host "`$v='0.1.0'; `$p='Frontier'; `$pr=1; `$ni=1; `$nu=1; iex(irm https://frontier-fw.dev/win/get.ps1)" -ForegroundColor Cyan
-        Write-Host "`$v='0.1.0'; `$p='.'; iex(irm https://frontier-fw.dev/win/v0.1.0-alpha.5/get.ps1)" -ForegroundColor Cyan
+        Write-Host "`$v='0.1.0'; `$p='.'; iex(irm https://frontier-fw.dev/win/v0.1.0/get.ps1)" -ForegroundColor Cyan
 
         Write-Host "`nSee more details in 'https://frontier-fw.dev/docs/?MANUAL.md#windows'.`n" -ForegroundColor Yellow
         return
