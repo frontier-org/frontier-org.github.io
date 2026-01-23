@@ -1,13 +1,8 @@
 # Copyright (c) 2026 The Frontier Framework Authors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
-<<<<<<< HEAD:win/get.ps1
 # Local: iex(gc -raw .\win\get.ps1)
 # Remote: iex(irm https://frontier-fw.dev/win/get.ps1)
-=======
-# Local: iex(gc -raw .\get.ps1)
-# Remote: iex(irm https://frontier-fw.dev/get.ps1)
->>>>>>> 020f36fc420dea7ef4edc5eafdcf8f83110a33c7:get.ps1
 
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = 3072
