@@ -1,8 +1,13 @@
 # Copyright (c) 2026 The Frontier Framework Authors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
+<<<<<<< HEAD:win/get.ps1
 # Local: iex(gc -raw .\win\get.ps1)
 # Remote: iex(irm https://frontier-fw.dev/win/get.ps1)
+=======
+# Local: iex(gc -raw .\get.ps1)
+# Remote: iex(irm https://frontier-fw.dev/get.ps1)
+>>>>>>> 020f36fc420dea7ef4edc5eafdcf8f83110a33c7:get.ps1
 
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = 3072
@@ -15,16 +20,16 @@ $tempDir = "C:\Temp"
 $zip = Join-Path $tempDir "Frontier-Windows.zip"
 $defaultUsePrerelease = $true
 
-$deletPaths = ".frontier/
+$deletPaths = ".frontier\
 back.bat
 front.bat
 frontier.bat"
 
-$gitignoreRules = ".frontier/
-dist/
-back.bat
-front.bat
-frontier.bat"
+$gitignoreRules = "/.frontier/
+/dist/
+/back.bat
+/front.bat
+/frontier.bat"
 
 function Cleanup-FrontierSession {
     $Global:v  = $null
@@ -120,7 +125,7 @@ try {
     Write-Host "Extracting files..."
     Expand-Archive -Path "$zip" -DestinationPath "$destFull" -Force
 
-    if ($ni -eq '1') {
+    if (!($ni -eq '1')) {
         Write-Host "Configuring .gitignore..."
         $gi = Join-Path "$destFull" ".gitignore"
         $rules = $gitignoreRules -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
@@ -136,7 +141,7 @@ try {
     Remove-Item "$zip" -Force
 
     if (Get-Command "rustc" -ErrorAction SilentlyContinue) {
-        if ($nu -eq '1') {
+        if (!($nu -eq '1')) {
             Write-Host "Updating dependencies..."
             Push-Location "$destFull"
             & ".\frontier.bat" update
