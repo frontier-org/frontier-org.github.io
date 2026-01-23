@@ -120,7 +120,7 @@
                             
                             <div class="relative group w-full md:w-auto">
                                 <div id="installCommand" class="bg-black/50 border border-white/10 px-6 py-4 pr-16 rounded-lg code-font text-cyan-400 text-sm md:text-base break-all">
-                                    powershell -nop "iex(irm https://frontier-fw.dev/win/get.ps1)"
+                                    powershell -nop "iex (irm 'https://frontier-fw.dev/win/get.ps1')"
                                     <button onclick="copyInstallCommand()" class="absolute right-3 top-1/2 -translate-y-1/2 p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-md transition-all active:scale-95 group-hover:border-cyan-500/50" title="Copy to clipboard">
                                         <i id="copyIcon" class="far fa-copy text-gray-400 group-hover:text-cyan-400"></i>
                                     </button>

@@ -1,8 +1,8 @@
 # Copyright (c) 2026 The Frontier Framework Authors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
-# Local: iex(gc -raw .\win\get.ps1)
-# Remote: iex(irm https://frontier-fw.dev/win/get.ps1)
+# Local: iex (gc -raw '.\win\get.ps1')
+# Remote: iex (irm 'https://frontier-fw.dev/win/get.ps1')
 
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = 3072
@@ -54,8 +54,10 @@ try {
         Write-Host "Boolean (1) to show this screen." -ForegroundColor DarkGray
 
         Write-Host "`nExample:"
-        Write-Host "`$v='0.1.0'; `$p='Frontier'; `$pr=1; `$ni=1; `$nu=1; iex(irm https://frontier-fw.dev/win/get.ps1)" -ForegroundColor Cyan
-        Write-Host "`$v='0.1.0'; `$p='.'; iex(irm https://frontier-fw.dev/win/v0.1.0/get.ps1)" -ForegroundColor Cyan
+        Write-Host "`$p='my-app'; iex (irm 'https://frontier-fw.dev/win/get.ps1')" -ForegroundColor Cyan
+
+        Write-Host "`nYou can specify the installer version by `'https://frontier-fw.dev/win/v{version}/get.ps1'`, like:" -ForegroundColor DarkGray
+        Write-Host "`$v='0.2.0'; `$p='.'; `$ni=1; `$nu=1; iex (irm 'https://frontier-fw.dev/win/v0.1.0/get.ps1')" -ForegroundColor Cyan
 
         Write-Host "`nSee more details in 'https://frontier-fw.dev/docs/?MANUAL.md#windows'.`n" -ForegroundColor Yellow
         return
@@ -74,7 +76,7 @@ try {
     Write-Host "`n* Frontier Installer ($version) *" -ForegroundColor Magenta
 
     Write-Host "`nFor Installer help, run in PowerShell:" -ForegroundColor DarkGray
-    Write-Host "`$h=1; iex(irm https://frontier-fw.dev/win/get.ps1)`n" -ForegroundColor DarkCyan
+    Write-Host "`$h=1; iex (irm 'https://frontier-fw.dev/win/get.ps1')`n" -ForegroundColor DarkCyan
 
     if ($p) {
         $dest = $p
