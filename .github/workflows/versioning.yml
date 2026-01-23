@@ -1,0 +1,33 @@
+# Copyright (c) 2026 The Frontier Framework Authors
+# SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception OR MIT
+
+name: Installation Script Versioning
+
+on:
+  workflow_call:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  installation-script-versioning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Copy Windows Installation Script
+        run: |
+          mkdir -p win/${{ github.ref_name }}
+          cp win/get.ps1 win/${{ github.ref_name }}/get.ps1
+
+      - name: Commit Installation Scripts Versioning
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Versioning Installation Scripts"
+          file_pattern: 'win/${{ github.ref_name }}/get.ps1'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
