@@ -17,7 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4with:
+        with:
+          ref: main
 
       - name: Copy Windows Installation Script
         run: |
