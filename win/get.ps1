@@ -7,7 +7,7 @@
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = 3072
 
-$version = "v0.1.0-alpha.5"
+$version = "v0.1.0-alpha.6"
 
 # --- Configurations ---
 $repo = "frontier-org/frontier"
@@ -73,8 +73,8 @@ try {
     }
     Write-Host "`n* Frontier Installer ($version) *" -ForegroundColor Magenta
 
-    Write-Host "For Installer help, run in PowerShell:" -ForegroundColor DarkGray
-    Write-Host "`$h=1; iex(irm https://frontier-fw.dev/get.ps1)`n" -ForegroundColor DarkCyan
+    Write-Host "`nFor Installer help, run in PowerShell:" -ForegroundColor DarkGray
+    Write-Host "`$h=1; iex(irm https://frontier-fw.dev/win/get.ps1)`n" -ForegroundColor DarkCyan
 
     if ($p) {
         $dest = $p
